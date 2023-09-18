@@ -74,7 +74,6 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-//    implementation ("com.github.bumptech.glide:compose:1.0.0-alpha.6")
     implementation ("io.coil-kt:coil-compose:2.4.0")
 
 }

@@ -30,12 +30,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Scale
@@ -121,14 +124,22 @@ fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Un
                     Text(
                         text = movie.name,
                         //style = MaterialTheme.typography.subtitle1,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+
                     )
                     Text(
                         text = movie.category,
+                        style = TextStyle(
+                            //fontSize = 24.sp,
+                            color = MaterialTheme.colorScheme.onTertiary,
+                            shadow = Shadow(
+                                color = Color.Blue, blurRadius = 3f
+                            )
+                        ),
                         //style = MaterialTheme.typography.caption,
                         modifier = Modifier
                             .background(
-                                Color.LightGray
+                                MaterialTheme.colorScheme.tertiary
                             )
                             .padding(4.dp)
                     )

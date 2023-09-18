@@ -66,6 +66,7 @@ import com.example.myapplication.ui.components.BottomNavigationBar
 import com.example.myapplication.ui.components.BottomTabBar
 import com.example.myapplication.ui.tabs.MovieList
 import com.example.myapplication.ui.tabs.MyMap
+import com.example.myapplication.ui.theme.AppTheme
 import com.mapbox.geojson.Point
 import kotlinx.coroutines.launch
 
@@ -80,7 +81,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-            MyApplicationTheme (darkTheme = settingViewModel.isDarkThemeResponse) {
+//            MyApplicationTheme (darkTheme = settingViewModel.isDarkThemeResponse) {
+            AppTheme (customColor = true) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
