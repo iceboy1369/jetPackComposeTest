@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiaWNlYm95NjkiLCJhIjoiY2sxZHg0YWQ4MGF3ZjNkbWRrNWEydnZxYiJ9.S1rsWcaOYRTbjZ2WdoqFkQ</string>
+    <string name="top_bar_title">نرم افزار تست جت پک</string>
+    <string name="drawer_title">تنظیمات کاربری</string>
+    <string name="profile">پروفایل</string>
+    <string name="friends_list">لیست دوستان</string>
+
+</resources>
