@@ -36,6 +36,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Scale
+import coil.transform.CircleCropTransformation
 import com.example.myapplication.R
 //import coil.annotation.ExperimentalCoilApi
 //import coil.compose.rememberAsyncImagePainter
@@ -81,30 +85,30 @@ fun MovieItem(movie: Movie, index: Int, selectedIndex: Int, onClick: (Int) -> Un
                     .padding(4.dp)
                     .fillMaxSize()
             ) {
-                Image(
-                    painter = painterResource(R.drawable.dog),
-                    contentDescription = "avatar",
-                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)                       // clip to the circle shape
-                        .border(2.dp, Color.Gray, CircleShape)   // add a border (optional)
-                )
-
 //                Image(
-//                    painter = rememberAsyncImagePainter(
-//                        ImageRequest.Builder(LocalContext.current).data(data = movie.imageUrl)
-//                            .apply(block = fun ImageRequest.Builder.() {
-//                                scale(Scale.FILL)
-//                                placeholder(R.drawable.dog)
-//                                transformations(CircleCropTransformation())
-//                            }).build()
-//                    ),
-//                    contentDescription = movie.desc,
+//                    painter = painterResource(R.drawable.dog),
+//                    contentDescription = "avatar",
+//                    contentScale = ContentScale.Crop,            // crop the image if it's not a square
 //                    modifier = Modifier
-//                        .fillMaxHeight()
-//                        .weight(0.2f)
+//                        .size(80.dp)
+//                        .clip(CircleShape)                       // clip to the circle shape
+//                        .border(2.dp, Color.Gray, CircleShape)   // add a border (optional)
 //                )
+
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(LocalContext.current).data(data = movie.imageUrl)
+                            .apply(block = fun ImageRequest.Builder.() {
+                                scale(Scale.FILL)
+                                placeholder(R.drawable.dog)
+                                transformations(CircleCropTransformation())
+                            }).build()
+                    ),
+                    contentDescription = movie.desc,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(0.2f)
+                )
 
 
                 Column(
