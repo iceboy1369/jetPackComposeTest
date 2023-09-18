@@ -44,13 +44,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -65,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.data.SettingViewModel
 import com.example.myapplication.data.repository.MoviesViewModel
 import com.example.myapplication.ui.components.BottomNavigationBar
 import com.example.myapplication.ui.components.BottomTabBar
@@ -75,6 +71,7 @@ import kotlinx.coroutines.launch
 
 
 val moviesViewModel = MoviesViewModel()
+val settingViewModel = SettingViewModel()
 
 class MainActivity : ComponentActivity() {
 
@@ -82,14 +79,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            var isDarkTheme by remember { mutableStateOf(true) }
 
-            MyApplicationTheme (darkTheme = isDarkTheme) {
+            MyApplicationTheme (darkTheme = settingViewModel.isDarkThemeResponse) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    HomeScreen(navController = navController, onNameChange = {isDarkTheme = it})
+
+                    HomeScreen(navController = navController)
                 }
             }
         }
@@ -135,8 +132,11 @@ fun Tab4(){
 
 
 @Composable
-fun DrawerContent(onNameChange: (Boolean) -> Unit){
-    var themeItem by rememberSaveable { mutableIntStateOf(0) }
+fun DrawerContent(){
+    //var themeItem by rememberSaveable { mutableIntStateOf(0) }
+
+    var themeItem = if (settingViewModel.isDarkThemeResponse) 0 else 1
+
     ModalDrawerSheet(
         modifier = Modifier
             .fillMaxHeight()
@@ -152,9 +152,9 @@ fun DrawerContent(onNameChange: (Boolean) -> Unit){
             IconButton(
                 onClick = {
                      when (themeItem) {
-                        0 -> { themeItem= 1; onNameChange(false)}
-                        1 -> { themeItem= 0; onNameChange(true)}
-                        else -> { themeItem= 0; onNameChange(false)}
+                        0 -> { themeItem= 1; settingViewModel.changeDrawerState(false)}
+                        1 -> { themeItem= 0; settingViewModel.changeDrawerState(true)}
+                        else -> { themeItem= 0; settingViewModel.changeDrawerState(false)}
                     }
                 },
             ) {
@@ -196,7 +196,7 @@ fun DrawerContent(onNameChange: (Boolean) -> Unit){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavHostController, onNameChange: (Boolean) -> Unit) {
+fun HomeScreen(navController: NavHostController) {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -206,7 +206,7 @@ fun HomeScreen(navController: NavHostController, onNameChange: (Boolean) -> Unit
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
-                DrawerContent(onNameChange = onNameChange)
+                DrawerContent()
             },
             gesturesEnabled = drawerState.isOpen // if drawer is open then you can close it with gestures.
 

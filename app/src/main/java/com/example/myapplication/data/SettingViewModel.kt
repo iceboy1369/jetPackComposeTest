@@ -6,23 +6,28 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.MyApp
 import kotlinx.coroutines.launch
 
-class SettingViewModel constructor(helper: ThemeStateHelper): ViewModel() {
+class SettingViewModel: ViewModel() {
 
-    var settingResponse:Boolean by mutableStateOf(true)
+    var isDarkThemeResponse:Boolean by mutableStateOf(getDrawerState())
 
-//    fun closeDrawer() {
-//        helper.
-//        viewModelScope.launch {
-//
-//            helper = false
-//        }
-//    }
-//
-//    fun openDrawer() {
-//        viewModelScope.launch {
-//            settingResponse = true
-//        }
-//    }
+
+    fun changeDrawerState(state: Boolean) {
+        viewModelScope.launch {
+            val sharedPref = MyApp.appContext.getSharedPreferences("myApp",Context.MODE_PRIVATE)
+            with (sharedPref.edit()) {
+                putBoolean("isDark", state)
+                apply()
+            }
+            isDarkThemeResponse = state
+        }
+    }
+
+    private fun getDrawerState(): Boolean{
+        val sharedPref = MyApp.appContext.getSharedPreferences("myApp",Context.MODE_PRIVATE)
+        return sharedPref.getBoolean("isDark", false)
+    }
+
 }
