@@ -14,44 +14,67 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.example.myapplication.data.SettingViewModel
 
-private val DarkColorScheme = darkColorScheme(
+val settingViewModel = SettingViewModel()
+
+private val darkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+val lightColorScheme = lightColorScheme(
+    primary = primary,
+    onPrimary = onPrimary,
+    secondary = secondary,
+    onSecondary = onSecondary,
+    tertiary = tertiary,
+    onTertiary = onTertiary,
+    background = background,
+    onBackground = onBackground,
+    primaryContainer = primaryContainer,
+    onPrimaryContainer = onPrimaryContainer,
+    inversePrimary = inversePrimary,
+    secondaryContainer = secondaryContainer,
+    onSecondaryContainer = onSecondaryContainer,
+    tertiaryContainer = tertiaryContainer,
+    onTertiaryContainer = onTertiaryContainer,
+    surface = surface,
+    onSurface = onSurface,
+    surfaceVariant = surfaceVariant,
+    onSurfaceVariant = onSurfaceVariant,
+    surfaceTint = surfaceTint,
+    inverseSurface = inverseSurface,
+    inverseOnSurface = inverseOnSurface,
+    error = error,
+    onError = onError,
+    errorContainer = errorContainer,
+    onErrorContainer = onErrorContainer,
+    outline = outline,
+    outlineVariant = outlineVariant,
+    scrim = scrim
 )
 
 @Composable
-fun MyApplicationTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+fun AppTheme(
+    themeState: Int = 0,
     content: @Composable () -> Unit
 ) {
+    val darkTheme = themeState==0 && isSystemInDarkTheme()
+    val lightTheme = themeState==1
+    val customColor = themeState==2
+    val dynamicColor = themeState==3 // Dynamic color is available on Android 12+
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            if (isSystemInDarkTheme()) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        customColor -> settingViewModel.customThemeSchemeResponse
+        darkTheme -> darkColorScheme
+        lightTheme -> lightColorScheme
+        else -> lightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -64,7 +87,7 @@ fun MyApplicationTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = typography,
         content = content
     )
 }

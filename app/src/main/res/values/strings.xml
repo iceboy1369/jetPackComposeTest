@@ -5,5 +5,8 @@
     <string name="drawer_title">تنظیمات کاربری</string>
     <string name="profile">پروفایل</string>
     <string name="friends_list">لیست دوستان</string>
+    <string name="edit_color">ویرایش رنگ</string>
+    <string name="menu2">منوی 2</string>
+    <string name="menu3">منوی 3</string>
 
 </resources>

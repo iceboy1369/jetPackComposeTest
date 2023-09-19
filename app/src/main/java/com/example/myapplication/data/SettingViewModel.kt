@@ -2,118 +2,140 @@ package com.example.myapplication.data
 
 import android.content.Context
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.MyApp
-import com.example.myapplication.ui.theme.Pink40
-import com.example.myapplication.ui.theme.Purple40
-import com.example.myapplication.ui.theme.PurpleGrey40
-import com.example.myapplication.ui.theme.lightColorScheme
+import com.example.myapplication.ui.theme.background
+import com.example.myapplication.ui.theme.errorContainer
+import com.example.myapplication.ui.theme.inverseOnSurface
+import com.example.myapplication.ui.theme.inversePrimary
+import com.example.myapplication.ui.theme.inverseSurface
+import com.example.myapplication.ui.theme.onBackground
+import com.example.myapplication.ui.theme.onError
+import com.example.myapplication.ui.theme.onErrorContainer
+import com.example.myapplication.ui.theme.onPrimary
+import com.example.myapplication.ui.theme.onPrimaryContainer
+import com.example.myapplication.ui.theme.onSecondary
+import com.example.myapplication.ui.theme.onSecondaryContainer
+import com.example.myapplication.ui.theme.onSurface
+import com.example.myapplication.ui.theme.onSurfaceVariant
+import com.example.myapplication.ui.theme.onTertiary
+import com.example.myapplication.ui.theme.onTertiaryContainer
+import com.example.myapplication.ui.theme.outline
+import com.example.myapplication.ui.theme.outlineVariant
+import com.example.myapplication.ui.theme.primary
+import com.example.myapplication.ui.theme.primaryContainer
+import com.example.myapplication.ui.theme.scrim
+import com.example.myapplication.ui.theme.secondary
+import com.example.myapplication.ui.theme.secondaryContainer
+import com.example.myapplication.ui.theme.settingViewModel
+import com.example.myapplication.ui.theme.surface
+import com.example.myapplication.ui.theme.surfaceTint
+import com.example.myapplication.ui.theme.surfaceVariant
+import com.example.myapplication.ui.theme.tertiary
+import com.example.myapplication.ui.theme.tertiaryContainer
 import kotlinx.coroutines.launch
 
 class SettingViewModel: ViewModel() {
 
-    var isDarkThemeResponse:Boolean by mutableStateOf(getDrawerState())
-    var customThemeSchemeResponse:ColorScheme by mutableStateOf(getColors())
+    var themeStateResponse:Int by mutableIntStateOf(getDrawerState())
+    var customThemeSchemeResponse: ColorScheme by mutableStateOf(getColors())
 
-
-    fun changeDrawerState(state: Boolean) {
+    fun changeDrawerState(state: Int) {
         viewModelScope.launch {
             val sharedPref = MyApp.appContext.getSharedPreferences("myApp",Context.MODE_PRIVATE)
             with (sharedPref.edit()) {
-                putBoolean("isDark", state)
+                putInt("theme", state)
                 apply()
             }
-            isDarkThemeResponse = state
+            themeStateResponse = state
         }
     }
 
-    private fun getDrawerState(): Boolean{
+
+    private fun getDrawerState(): Int{
         val sharedPref = MyApp.appContext.getSharedPreferences("myApp",Context.MODE_PRIVATE)
-        return sharedPref.getBoolean("isDark", false)
+        return sharedPref.getInt("theme", 0)
     }
 
-    fun getColors(): ColorScheme {
+    private fun getColors(): ColorScheme{
         val sharedPref = MyApp.appContext.getSharedPreferences("myApp", Context.MODE_PRIVATE)
 
         return lightColorScheme(
-            primary = Color(sharedPref.getLong("primary", lightColorScheme().primary.value.toLong())),
-            secondary = Color(sharedPref.getLong("secondary", lightColorScheme().secondary.value.toLong())),
-            tertiary = Color(sharedPref.getLong("tertiary", lightColorScheme().tertiary.value.toLong())))
-
-//        return lightColorScheme(
-//            primary = Color(sharedPref.getLong("primary", lightColorScheme().primary.value.toLong())),
-//            onPrimary = Color(sharedPref.getLong("onPrimary", lightColorScheme().onPrimary.value.toLong())),
-//            primaryContainer = Color(sharedPref.getLong("primaryContainer", lightColorScheme().primaryContainer.value.toLong())),
-//            onPrimaryContainer = Color(sharedPref.getLong("onPrimaryContainer", lightColorScheme().onPrimaryContainer.value.toLong())),
-//            inversePrimary = Color(sharedPref.getLong("inversePrimary", lightColorScheme().inversePrimary.value.toLong())),
-//            secondary = Color(sharedPref.getLong("secondary", lightColorScheme().secondary.value.toLong())),
-//            onSecondary = Color(sharedPref.getLong("onSecondary", lightColorScheme().onSecondary.value.toLong())),
-//            secondaryContainer = Color(sharedPref.getLong("secondaryContainer", lightColorScheme().secondaryContainer.value.toLong())),
-//            onSecondaryContainer = Color(sharedPref.getLong("onSecondaryContainer", lightColorScheme().onSecondaryContainer.value.toLong())),
-//            tertiary = Color(sharedPref.getLong("tertiary", lightColorScheme().tertiary.value.toLong())),
-//            onTertiary = Color(sharedPref.getLong("onTertiary", lightColorScheme().onTertiary.value.toLong())),
-//            tertiaryContainer = Color(sharedPref.getLong("tertiaryContainer", lightColorScheme().tertiaryContainer.value.toLong())),
-//            onTertiaryContainer = Color(sharedPref.getLong("onTertiaryContainer", lightColorScheme().onTertiaryContainer.value.toLong())),
-//            background = Color(sharedPref.getLong("background", lightColorScheme().background.value.toLong())),
-//            onBackground = Color(sharedPref.getLong("onBackground", lightColorScheme().onBackground.value.toLong())),
-//            surface = Color(sharedPref.getLong("surface", lightColorScheme().surface.value.toLong())),
-//            onSurface = Color(sharedPref.getLong("onSurface", lightColorScheme().onSurface.value.toLong())),
-//            surfaceVariant = Color(sharedPref.getLong("surfaceVariant", lightColorScheme().surfaceVariant.value.toLong())),
-//            onSurfaceVariant = Color(sharedPref.getLong("onSurfaceVariant", lightColorScheme().onSurfaceVariant.value.toLong())),
-//            surfaceTint = Color(sharedPref.getLong("surfaceTint", lightColorScheme().surfaceTint.value.toLong())),
-//            inverseSurface = Color(sharedPref.getLong("inverseSurface", lightColorScheme().inverseSurface.value.toLong())),
-//            inverseOnSurface = Color(sharedPref.getLong("inverseOnSurface", lightColorScheme().inverseOnSurface.value.toLong())),
-//            error = Color(sharedPref.getLong("error", lightColorScheme().error.value.toLong())),
-//            onError = Color(sharedPref.getLong("onError", lightColorScheme().onError.value.toLong())),
-//            errorContainer = Color(sharedPref.getLong("errorContainer", lightColorScheme().errorContainer.value.toLong())),
-//            onErrorContainer = Color(sharedPref.getLong("onErrorContainer", lightColorScheme().onErrorContainer.value.toLong())),
-//            outline = Color(sharedPref.getLong("outline", lightColorScheme().outline.value.toLong())),
-//            outlineVariant = Color(sharedPref.getLong("outlineVariant", lightColorScheme().outlineVariant.value.toLong())),
-//            scrim = Color(sharedPref.getLong("scrim", lightColorScheme().scrim.value.toLong())))
+            primary = Color(sharedPref.getString("primary",  primary.value.toString())!!.toULong()),
+            onPrimary = Color(sharedPref.getString("onPrimary", onPrimary.value.toString())!!.toULong()),
+            secondary = Color(sharedPref.getString("secondary", secondary.value.toString())!!.toULong()),
+            onSecondary = Color(sharedPref.getString("onSecondary", onSecondary.value.toString())!!.toULong()),
+            tertiary = Color(sharedPref.getString("tertiary", tertiary.value.toString())!!.toULong()),
+            onTertiary = Color(sharedPref.getString("onTertiary", onTertiary.value.toString())!!.toULong()),
+            background = Color(sharedPref.getString("background", background.value.toString())!!.toULong()),
+            onBackground = Color(sharedPref.getString("onBackground", onBackground.value.toString())!!.toULong()),
+            primaryContainer = Color(sharedPref.getString("primaryContainer", primaryContainer.value.toString())!!.toULong()),
+            onPrimaryContainer = Color(sharedPref.getString("onPrimaryContainer", onPrimaryContainer.value.toString())!!.toULong()),
+            inversePrimary = Color(sharedPref.getString("inversePrimary", inversePrimary.value.toString())!!.toULong()),
+            secondaryContainer = Color(sharedPref.getString("secondaryContainer", secondaryContainer.value.toString())!!.toULong()),
+            onSecondaryContainer = Color(sharedPref.getString("onSecondaryContainer", onSecondaryContainer.value.toString())!!.toULong()),
+            tertiaryContainer = Color(sharedPref.getString("tertiaryContainer", tertiaryContainer.value.toString())!!.toULong()),
+            onTertiaryContainer = Color(sharedPref.getString("onTertiaryContainer", onTertiaryContainer.value.toString())!!.toULong()),
+            surface = Color(sharedPref.getString("surface", surface.value.toString())!!.toULong()),
+            onSurface = Color(sharedPref.getString("onSurface", onSurface.value.toString())!!.toULong()),
+            surfaceVariant = Color(sharedPref.getString("surfaceVariant", surfaceVariant.value.toString())!!.toULong()),
+            onSurfaceVariant = Color(sharedPref.getString("onSurfaceVariant", onSurfaceVariant.value.toString())!!.toULong()),
+            surfaceTint = Color(sharedPref.getString("surfaceTint", surfaceTint.value.toString())!!.toULong()),
+            inverseSurface = Color(sharedPref.getString("inverseSurface", inverseSurface.value.toString())!!.toULong()),
+            inverseOnSurface = Color(sharedPref.getString("inverseOnSurface", inverseOnSurface.value.toString())!!.toULong()),
+            error = Color(sharedPref.getString("error", com.example.myapplication.ui.theme.error.value.toString())!!.toULong()),
+            onError = Color(sharedPref.getString("onError", onError.value.toString())!!.toULong()),
+            errorContainer = Color(sharedPref.getString("errorContainer", errorContainer.value.toString())!!.toULong()),
+            onErrorContainer = Color(sharedPref.getString("onErrorContainer", onErrorContainer.value.toString())!!.toULong()),
+            outline = Color(sharedPref.getString("outline", outline.value.toString())!!.toULong()),
+            outlineVariant = Color(sharedPref.getString("outlineVariant", outlineVariant.value.toString())!!.toULong()),
+            scrim = Color(sharedPref.getString("scrim", scrim.value.toString())!!.toULong())
+        )
 
     }
 
     fun setColors(colorScheme: ColorScheme) {
         val sharedPref = MyApp.appContext.getSharedPreferences("myApp", Context.MODE_PRIVATE)
         with (sharedPref.edit()) {
-            putLong("primary", colorScheme.primary.value.toLong())
-            putLong("onPrimary", colorScheme.onPrimary.value.toLong())
-            putLong("primaryContainer", colorScheme.primaryContainer.value.toLong())
-            putLong("onPrimaryContainer", colorScheme.onPrimaryContainer.value.toLong())
-            putLong("inversePrimary", colorScheme.inversePrimary.value.toLong())
-            putLong("secondary", colorScheme.secondary.value.toLong())
-            putLong("onSecondary", colorScheme.onSecondary.value.toLong())
-            putLong("secondaryContainer", colorScheme.secondaryContainer.value.toLong())
-            putLong("onSecondaryContainer", colorScheme.onSecondaryContainer.value.toLong())
-            putLong("tertiary", colorScheme.tertiary.value.toLong())
-            putLong("onTertiary", colorScheme.onTertiary.value.toLong())
-            putLong("tertiaryContainer", colorScheme.tertiaryContainer.value.toLong())
-            putLong("onTertiaryContainer", colorScheme.onTertiaryContainer.value.toLong())
-            putLong("background", colorScheme.background.value.toLong())
-            putLong("onBackground", colorScheme.onBackground.value.toLong())
-            putLong("surface", colorScheme.surface.value.toLong())
-            putLong("onSurface", colorScheme.onSurface.value.toLong())
-            putLong("surfaceVariant", colorScheme.surfaceVariant.value.toLong())
-            putLong("onSurfaceVariant", colorScheme.onSurfaceVariant.value.toLong())
-            putLong("surfaceTint", colorScheme.surfaceTint.value.toLong())
-            putLong("inverseSurface", colorScheme.inverseSurface.value.toLong())
-            putLong("inverseOnSurface", colorScheme.inverseOnSurface.value.toLong())
-            putLong("error", colorScheme.error.value.toLong())
-            putLong("onError", colorScheme.onError.value.toLong())
-            putLong("errorContainer", colorScheme.errorContainer.value.toLong())
-            putLong("onErrorContainer", colorScheme.onErrorContainer.value.toLong())
-            putLong("outline", colorScheme.outline.value.toLong())
-            putLong("outlineVariant", colorScheme.outlineVariant.value.toLong())
-            putLong("scrim", colorScheme.scrim.value.toLong())
+            putString("primary", colorScheme.primary.value.toString())
+            putString("onPrimary", colorScheme.onPrimary.value.toString())
+            putString("secondary", colorScheme.secondary.value.toString())
+            putString("onSecondary", colorScheme.onSecondary.value.toString())
+            putString("tertiary", colorScheme.tertiary.value.toString())
+            putString("onTertiary", colorScheme.onTertiary.value.toString())
+            putString("background", colorScheme.background.value.toString())
+            putString("onBackground", colorScheme.onBackground.value.toString())
+            putString("primaryContainer", colorScheme.primaryContainer.value.toString())
+            putString("onPrimaryContainer", colorScheme.onPrimaryContainer.value.toString())
+            putString("inversePrimary", colorScheme.inversePrimary.value.toString())
+            putString("secondaryContainer", colorScheme.secondaryContainer.value.toString())
+            putString("onSecondaryContainer", colorScheme.onSecondaryContainer.value.toString())
+            putString("tertiaryContainer", colorScheme.tertiaryContainer.value.toString())
+            putString("onTertiaryContainer", colorScheme.onTertiaryContainer.value.toString())
+            putString("surface", colorScheme.surface.value.toString())
+            putString("onSurface", colorScheme.onSurface.value.toString())
+            putString("surfaceVariant", colorScheme.surfaceVariant.value.toString())
+            putString("onSurfaceVariant", colorScheme.onSurfaceVariant.value.toString())
+            putString("surfaceTint", colorScheme.surfaceTint.value.toString())
+            putString("inverseSurface", colorScheme.inverseSurface.value.toString())
+            putString("inverseOnSurface", colorScheme.inverseOnSurface.value.toString())
+            putString("error", colorScheme.error.value.toString())
+            putString("onError", colorScheme.onError.value.toString())
+            putString("errorContainer", colorScheme.errorContainer.value.toString())
+            putString("onErrorContainer", colorScheme.onErrorContainer.value.toString())
+            putString("outline", colorScheme.outline.value.toString())
+            putString("outlineVariant", colorScheme.outlineVariant.value.toString())
+            putString("scrim", colorScheme.scrim.value.toString())
             apply()
         }
+        customThemeSchemeResponse = settingViewModel.getColors()
     }
 
 }

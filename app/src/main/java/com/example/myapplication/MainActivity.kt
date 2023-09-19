@@ -11,7 +11,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.myapplication.ui.theme.MyApplicationTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,6 +22,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Adb
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddIcCall
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.AutoFixHigh
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LightMode
@@ -67,6 +68,8 @@ import com.example.myapplication.ui.components.BottomTabBar
 import com.example.myapplication.ui.tabs.MovieList
 import com.example.myapplication.ui.tabs.MyMap
 import com.example.myapplication.ui.theme.AppTheme
+import com.example.myapplication.ui.theme.iranSansFamily
+import com.example.myapplication.ui.theme.typography
 import com.mapbox.geojson.Point
 import kotlinx.coroutines.launch
 
@@ -81,13 +84,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-//            MyApplicationTheme (darkTheme = settingViewModel.isDarkThemeResponse) {
-            AppTheme (customColor = true) {
+            AppTheme (themeState = settingViewModel.themeStateResponse) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
                     HomeScreen(navController = navController)
                 }
             }
@@ -135,9 +136,7 @@ fun Tab4(){
 
 @Composable
 fun DrawerContent(){
-    //var themeItem by rememberSaveable { mutableIntStateOf(0) }
-
-    var themeItem = if (settingViewModel.isDarkThemeResponse) 0 else 1
+    var themeItem = settingViewModel.themeStateResponse
 
     ModalDrawerSheet(
         modifier = Modifier
@@ -154,9 +153,11 @@ fun DrawerContent(){
             IconButton(
                 onClick = {
                      when (themeItem) {
-                        0 -> { themeItem= 1; settingViewModel.changeDrawerState(false)}
-                        1 -> { themeItem= 0; settingViewModel.changeDrawerState(true)}
-                        else -> { themeItem= 0; settingViewModel.changeDrawerState(false)}
+                        0 -> { themeItem= 1; settingViewModel.changeDrawerState(1)}
+                        1 -> { themeItem= 2; settingViewModel.changeDrawerState(2)}
+                        2 -> { themeItem= 2; settingViewModel.changeDrawerState(3)}
+                        3 -> { themeItem= 2; settingViewModel.changeDrawerState(0)}
+                        else -> { themeItem= 0; settingViewModel.changeDrawerState(0)}
                     }
                 },
             ) {
@@ -164,6 +165,8 @@ fun DrawerContent(){
                     imageVector = when (themeItem) {
                                 0 -> Icons.Default.DarkMode
                                 1 -> Icons.Default.LightMode
+                                2 -> Icons.Default.AutoAwesome
+                                3 -> Icons.Default.AutoFixHigh
                                 else -> Icons.Default.DarkMode
                             },
                     "ThemeMode",
@@ -175,19 +178,19 @@ fun DrawerContent(){
         Spacer(modifier = Modifier.size(30.dp))
         Divider()
         NavigationDrawerItem(
-            label = { Text(text = "منوی 1") },
+            label = { Text(text = stringResource(R.string.edit_color)) },
             icon = { Icons.Default.Home },
             selected = false,
             onClick = {  }
         )
         NavigationDrawerItem(
-            label = { Text(text = "منوی 2") },
+            label = { Text(text = stringResource(R.string.menu2)) },
             icon = { Icons.Default.Adb },
             selected = false,
             onClick = {  }
         )
         NavigationDrawerItem(
-            label = { Text(text = "منوی 3") },
+            label = { Text(text = stringResource(R.string.menu3)) },
             icon = { Icons.Default.AddIcCall },
             selected = false,
             onClick = {  }
@@ -222,7 +225,14 @@ fun HomeScreen(navController: NavHostController) {
                             titleContentColor = MaterialTheme.colorScheme.primary,
                         ),
                         title = {
-                            Text(stringResource(R.string.top_bar_title), style = TextStyle(textAlign = TextAlign.Left), fontSize = 20.sp)
+                            Text(
+                                stringResource(R.string.top_bar_title),
+//                                style = TextStyle(
+//                                    textAlign = TextAlign.Left,
+//                                    fontFamily =
+//                                ),
+                                style = typography.labelMedium,
+                            )
                         },
                         actions = {
                             IconButton(onClick = {
@@ -245,7 +255,7 @@ fun HomeScreen(navController: NavHostController) {
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        content = { Icon(Icons.Filled.Add, contentDescription = "") },
+                        content = { Icon(Icons.Filled.Add, contentDescription = "Add") },
                         onClick = {
                             scope.launch {
                                 snackBarHostState.showSnackbar("SnackBar")
