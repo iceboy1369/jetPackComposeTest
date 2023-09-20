@@ -9,12 +9,13 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.example.myapplication.data.SettingViewModel
+import com.example.myapplication.data.repository.SettingViewModel
 
 val settingViewModel = SettingViewModel()
 
@@ -71,7 +72,7 @@ fun AppTheme(
             val context = LocalContext.current
             if (isSystemInDarkTheme()) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        customColor -> settingViewModel.customThemeSchemeResponse
+        customColor -> settingViewModel.getColors()
         darkTheme -> darkColorScheme
         lightTheme -> lightColorScheme
         else -> lightColorScheme

@@ -4,16 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredWidth
@@ -35,42 +31,47 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.data.SettingViewModel
 import com.example.myapplication.data.repository.MoviesViewModel
+import com.example.myapplication.data.repository.SettingViewModel
 import com.example.myapplication.ui.components.BottomNavigationBar
 import com.example.myapplication.ui.components.BottomTabBar
+import com.example.myapplication.ui.components.CustomDialog
 import com.example.myapplication.ui.tabs.MovieList
 import com.example.myapplication.ui.tabs.MyMap
 import com.example.myapplication.ui.theme.AppTheme
-import com.example.myapplication.ui.theme.iranSansFamily
 import com.example.myapplication.ui.theme.typography
 import com.mapbox.geojson.Point
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -111,7 +112,8 @@ fun MapScreen() {
 fun Tab2(){
     Column( modifier = Modifier.fillMaxSize()) {
         Text("Tab1", color = Color.Blue, fontSize = 30.sp)
-        Image(painter = painterResource(id = R.drawable.dog),
+        Image(
+            painter = painterResource(id = R.drawable.dog),
             contentDescription = "dog",
             contentScale = ContentScale.FillHeight,
         )
@@ -133,15 +135,31 @@ fun Tab4(){
     }
 }
 
-
 @Composable
 fun DrawerContent(){
     var themeItem = settingViewModel.themeStateResponse
+    val scope = rememberCoroutineScope()
+
+    val showDialog =  remember { mutableStateOf(false) }
+    if(showDialog.value)
+        CustomDialog(
+            setShowDialog = {showDialog.value = it },
+            changeTheme = {
+                if (it) {
+                    settingViewModel.changeDrawerState(1)
+                    scope.launch {
+                        delay(10)
+                        settingViewModel.changeDrawerState(2)
+                    }
+                }
+            }
+        )
 
     ModalDrawerSheet(
         modifier = Modifier
             .fillMaxHeight()
             .requiredWidth(300.dp)
+            .background(MaterialTheme.colorScheme.secondary),
     ) {
         Text(stringResource(R.string.drawer_title), modifier = Modifier.padding(16.dp))
         Column(
@@ -181,7 +199,9 @@ fun DrawerContent(){
             label = { Text(text = stringResource(R.string.edit_color)) },
             icon = { Icons.Default.Home },
             selected = false,
-            onClick = {  }
+            onClick = {
+                showDialog.value = true
+            }
         )
         NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.menu2)) },
@@ -221,16 +241,12 @@ fun HomeScreen(navController: NavHostController) {
 
                     TopAppBar(
                         colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.primary,
+                            containerColor = MaterialTheme.colorScheme.secondary,
+                            titleContentColor = MaterialTheme.colorScheme.background,
                         ),
                         title = {
                             Text(
                                 stringResource(R.string.top_bar_title),
-//                                style = TextStyle(
-//                                    textAlign = TextAlign.Left,
-//                                    fontFamily =
-//                                ),
                                 style = typography.labelMedium,
                             )
                         },
@@ -244,7 +260,8 @@ fun HomeScreen(navController: NavHostController) {
                             }) {
                                 Icon(
                                     imageVector = Icons.Filled.Menu,
-                                    contentDescription = "Localized description"
+                                    contentDescription = "Localized description",
+                                    tint = MaterialTheme.colorScheme.tertiary
                                 )
                             }
                         }
@@ -255,7 +272,7 @@ fun HomeScreen(navController: NavHostController) {
                 },
                 floatingActionButton = {
                     FloatingActionButton(
-                        content = { Icon(Icons.Filled.Add, contentDescription = "Add") },
+                        content = { Icon(Icons.Filled.Add, contentDescription = "Add", tint = MaterialTheme.colorScheme.tertiary) },
                         onClick = {
                             scope.launch {
                                 snackBarHostState.showSnackbar("SnackBar")

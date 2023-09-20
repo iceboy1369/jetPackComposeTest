@@ -36,6 +36,12 @@ val typography = Typography(
         letterSpacing = 0.5.sp
     ),
 
+    labelMedium = TextStyle(
+        fontFamily = iranSansFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+    ),
+
     bodyMedium = TextStyle(
         fontFamily = iranSansFamily,
     ),
@@ -70,12 +76,6 @@ val typography = Typography(
 
     labelLarge = TextStyle(
         fontFamily = iranSansFamily,
-    ),
-
-    labelMedium = TextStyle(
-        fontFamily = iranSansFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
     ),
 
     titleMedium = TextStyle(

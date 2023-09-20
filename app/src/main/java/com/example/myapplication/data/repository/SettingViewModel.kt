@@ -1,11 +1,9 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.repository
 
 import android.content.Context
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
@@ -34,7 +32,6 @@ import com.example.myapplication.ui.theme.primaryContainer
 import com.example.myapplication.ui.theme.scrim
 import com.example.myapplication.ui.theme.secondary
 import com.example.myapplication.ui.theme.secondaryContainer
-import com.example.myapplication.ui.theme.settingViewModel
 import com.example.myapplication.ui.theme.surface
 import com.example.myapplication.ui.theme.surfaceTint
 import com.example.myapplication.ui.theme.surfaceVariant
@@ -45,7 +42,7 @@ import kotlinx.coroutines.launch
 class SettingViewModel: ViewModel() {
 
     var themeStateResponse:Int by mutableIntStateOf(getDrawerState())
-    var customThemeSchemeResponse: ColorScheme by mutableStateOf(getColors())
+    //var customThemeSchemeResponse: ColorScheme by mutableStateOf(getColors())
 
     fun changeDrawerState(state: Int) {
         viewModelScope.launch {
@@ -64,10 +61,10 @@ class SettingViewModel: ViewModel() {
         return sharedPref.getInt("theme", 0)
     }
 
-    private fun getColors(): ColorScheme{
+    fun getColors(): ColorScheme{
         val sharedPref = MyApp.appContext.getSharedPreferences("myApp", Context.MODE_PRIVATE)
 
-        return lightColorScheme(
+        return ColorScheme(
             primary = Color(sharedPref.getString("primary",  primary.value.toString())!!.toULong()),
             onPrimary = Color(sharedPref.getString("onPrimary", onPrimary.value.toString())!!.toULong()),
             secondary = Color(sharedPref.getString("secondary", secondary.value.toString())!!.toULong()),
@@ -135,7 +132,18 @@ class SettingViewModel: ViewModel() {
             putString("scrim", colorScheme.scrim.value.toString())
             apply()
         }
-        customThemeSchemeResponse = settingViewModel.getColors()
+    }
+
+    fun setColors(primary1: Color, secondary1:Color, tertiary1:Color) {
+        viewModelScope.launch {
+            val sharedPref = MyApp.appContext.getSharedPreferences("myApp", Context.MODE_PRIVATE)
+            with (sharedPref.edit()) {
+                putString("primary", primary1.value.toString())
+                putString("secondary", secondary1.value.toString())
+                putString("tertiary", tertiary1.value.toString())
+                apply()
+            }
+        }
     }
 
 }

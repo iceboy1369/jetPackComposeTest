@@ -75,5 +75,11 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("io.coil-kt:coil-compose:2.4.0")
+    implementation ("io.mhssn:colorpicker:1.0.0")
+//    implementation ("com.github.alirezaafkar:compose-color-picker:1.0.0")
+//    implementation ("com.github.SmartToolFactory:Compose-Color-Picker-Bundle:1.2.0")
+//    implementation ("com.raedapps:alwan:1.0.1")
+//    implementation ("com.sergiobelda.compose.colorpicker:colorpicker:1.0.0-dev04")
+//    implementation ("io.github.vanpra.compose-material-dialogs:color:0.9.0")
 
 }

@@ -8,5 +8,7 @@
     <string name="edit_color">ویرایش رنگ</string>
     <string name="menu2">منوی 2</string>
     <string name="menu3">منوی 3</string>
+    <string name="edit_theme_title_dialog">ویرایش تم</string>
+    <string name="done">اعمال تغییرات</string>
 
 </resources>
