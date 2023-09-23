@@ -44,8 +44,7 @@ import io.mhssn.colorpicker.ColorPickerType
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun CustomDialog(setShowDialog: (Boolean) -> Unit,
-                 changeTheme: (Boolean) -> Unit) {
+fun CustomDialog( setShowDialog: (Boolean) -> Unit, changeTheme: (Boolean) -> Unit) {
 
     val settingViewModel = SettingViewModel()
     val colorScheme = settingViewModel.getColors()

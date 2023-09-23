@@ -1,13 +1,9 @@
 package com.example.myapplication.ui.components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalAbsoluteTonalElevation
@@ -19,11 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -34,14 +27,13 @@ import com.example.myapplication.MapScreen
 import com.example.myapplication.Tab4
 import com.example.myapplication.TabList
 import com.example.myapplication.ui.theme.typography
-import com.mapbox.maps.extension.style.style
 
 class BottomTabBar {
     @Composable
     fun NavigationScreens(navController: NavHostController) {
-        NavHost(navController, startDestination = NavItem.Home.route) {
+        NavHost(navController, startDestination = NavItem.Search.route) {
             composable(NavItem.Home.route) { MapScreen() }
-            composable(NavItem.Search.route) { Tab4() }
+            composable(NavItem.Search.route) { AnimationPage() }
             composable(NavItem.List.route) { TabList() }
             composable(NavItem.Setting.route) { Tab4() }
         }

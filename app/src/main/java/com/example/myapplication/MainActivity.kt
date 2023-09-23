@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,9 +50,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
@@ -83,6 +80,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
             val navController = rememberNavController()
 
             AppTheme (themeState = settingViewModel.themeStateResponse) {
@@ -103,19 +101,6 @@ fun MapScreen() {
     Column( modifier = Modifier.fillMaxSize()) {
         MyMap().MapBoxMap(
             point = Point.fromLngLat(-0.6333, 35.6971),
-        )
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-fun Tab2(){
-    Column( modifier = Modifier.fillMaxSize()) {
-        Text("Tab1", color = Color.Blue, fontSize = 30.sp)
-        Image(
-            painter = painterResource(id = R.drawable.dog),
-            contentDescription = "dog",
-            contentScale = ContentScale.FillHeight,
         )
     }
 }
@@ -218,7 +203,6 @@ fun DrawerContent(){
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -271,14 +255,14 @@ fun HomeScreen(navController: NavHostController) {
                     SnackbarHost(hostState = snackBarHostState)
                 },
                 floatingActionButton = {
-                    FloatingActionButton(
-                        content = { Icon(Icons.Filled.Add, contentDescription = "Add", tint = MaterialTheme.colorScheme.tertiary) },
-                        onClick = {
-                            scope.launch {
-                                snackBarHostState.showSnackbar("SnackBar")
-                            }
-                        }
-                    )
+//                    FloatingActionButton(
+//                        content = { Icon(Icons.Filled.Add, contentDescription = "Add", tint = MaterialTheme.colorScheme.tertiary) },
+//                        onClick = {
+//                            scope.launch {
+//                                snackBarHostState.showSnackbar("SnackBar")
+//                            }
+//                        }
+//                    )
                 },
                 bottomBar = {
                     BottomAppBar { BottomNavigationBar(navController = navController) }
