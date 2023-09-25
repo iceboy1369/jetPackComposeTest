@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Animation
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
@@ -31,9 +32,9 @@ import com.example.myapplication.ui.theme.typography
 class BottomTabBar {
     @Composable
     fun NavigationScreens(navController: NavHostController) {
-        NavHost(navController, startDestination = NavItem.Search.route) {
+        NavHost(navController, startDestination = NavItem.ANIMATION.route) {
             composable(NavItem.Home.route) { MapScreen() }
-            composable(NavItem.Search.route) { AnimationPage() }
+            composable(NavItem.ANIMATION.route) { AnimationPage() }
             composable(NavItem.List.route) { TabList() }
             composable(NavItem.Setting.route) { Tab4() }
         }
@@ -76,20 +77,20 @@ fun BottomNavigationBar(navController: NavHostController) {
 
 // Navigation Path
 enum class NavPath {
-    HOME, SEARCH, LIST, Setting
+    HOME, ANIMATION, LIST, Setting
 }
 
 // Navigation Title
 object NavTitle {
     const val HOME = "نقشه"
-    const val SEARCH = "جستجو"
+    const val ANIMATION = "انیمیشن"
     const val LIST = "لیست"
     const val Setting = "تنظیمات"
 }
 
 val items = listOf(
     NavItem.Home,
-    NavItem.Search,
+    NavItem.ANIMATION,
     NavItem.List,
     NavItem.Setting,
 )
@@ -99,8 +100,8 @@ sealed class NavItem (val route: String, val title: String, val icon: ImageVecto
     object Home :
         NavItem(NavPath.HOME.toString(), NavTitle.HOME, Icons.Default.Home)
 
-    object Search :
-        NavItem( NavPath.SEARCH.toString(), NavTitle.SEARCH, Icons.Default.Search)
+    object ANIMATION :
+        NavItem( NavPath.ANIMATION.toString(), NavTitle.ANIMATION, Icons.Default.Animation)
 
     object List :
         NavItem(NavPath.LIST.toString(), NavTitle.LIST, Icons.Default.List)

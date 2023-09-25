@@ -23,9 +23,9 @@ val typography = Typography(
     titleLarge = TextStyle(
         fontFamily = iranSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontSize = 26.sp,
+        lineHeight = 30.sp,
+        letterSpacing = 3.sp
     ),
 
     labelSmall = TextStyle(
