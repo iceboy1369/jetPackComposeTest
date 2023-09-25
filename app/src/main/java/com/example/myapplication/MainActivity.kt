@@ -245,7 +245,7 @@ fun HomeScreen(navController: NavHostController) {
                                 Icon(
                                     imageVector = Icons.Filled.Menu,
                                     contentDescription = "Localized description",
-                                    tint = MaterialTheme.colorScheme.tertiary
+                                    tint = Color.White
                                 )
                             }
                         }
