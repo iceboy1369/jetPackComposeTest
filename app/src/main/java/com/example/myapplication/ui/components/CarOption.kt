@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,7 +27,6 @@ import androidx.compose.material.icons.filled.BatteryChargingFull
 import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.SignalCellularAlt
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
@@ -51,11 +49,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.white
 import kotlinx.coroutines.delay
 
 class CarOption {
     @Preview(showSystemUi = true, backgroundColor = 0xFFAF2020, showBackground = true)
     @Composable
+
     fun Options() {
         var opt1 by remember { mutableStateOf(false) }
         var opt2 by remember { mutableStateOf(false) }
@@ -71,14 +71,13 @@ class CarOption {
             modifier = Modifier
                 .fillMaxHeight(0.60F)
                 .fillMaxWidth()
-                .padding(0.dp, 0.dp, 0.dp, 0.dp)
         ) {
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.Blue)
-                    .weight(0.15F),
+                    .weight(0.195F),
                 contentAlignment = Alignment.Center
             ) {
                 Spacer(modifier = Modifier
@@ -88,7 +87,7 @@ class CarOption {
                         path.lineTo(size.width, size.height / 2f)
                         path.close()
                         onDrawBehind {
-                            drawPath(path, Color.White, style = Stroke(width = 2f))
+                            drawPath(path, Color.White, style = Stroke(width = 3f))
                         }
                     }
                     .fillMaxSize()
@@ -107,27 +106,20 @@ class CarOption {
                     color = Color.Blue,
                     style = Typography().titleLarge
                 )
-            }
 
-            Row(modifier = Modifier
-                .weight(0.1F, fill = true)
-                .fillMaxWidth()) {
+                Row(modifier = Modifier
+                    .fillMaxSize(),
+                    Arrangement.Center,
+                    Alignment.Bottom) {
 
-                AnimatedVisibility(
-                    visible = opt3,
-                    enter = fadeIn(
-                        animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
-                    ),
-                    exit = fadeOut(
-                        animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
-                    )
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Blue),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                    AnimatedVisibility(
+                        visible = opt3,
+                        enter = fadeIn(
+                            animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
+                        ),
+                        exit = fadeOut(
+                            animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+                        )
                     ) {
                         Text(
                             text = "شارژ سیم کارت ردیاب : 105980 ریال",
@@ -139,16 +131,16 @@ class CarOption {
             }
 
             Row (modifier = Modifier
-                .weight(0.16F, fill = true)
+                .weight(0.145F, fill = true)
                 .fillMaxHeight()) {
 
                 Row(modifier = Modifier
-                    .weight(0.33F, fill = true)
-                    .padding(10.dp, 30.dp, 10.dp, 0.dp)
+                    .weight(0.35F, fill = true)
+                    .padding(10.dp, 15.dp, 10.dp, 0.dp)
                     .fillMaxHeight()) {
 
                     AnimatedVisibility(
-                        visible = opt2,
+                        visible = opt4,
                         enter = fadeIn(
                             animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
                         ),
@@ -156,28 +148,45 @@ class CarOption {
                             animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                         )
                     ) {
+                        Box (modifier = Modifier.fillMaxSize()) {
+                            Canvas(modifier = Modifier.fillMaxSize()) {
+                                val canvasWidth = size.width
+                                val canvasHeight = size.height
+                                drawLine(
+                                    start = Offset(
+                                        x = canvasWidth / 8f,
+                                        y = canvasHeight / 1.8f
+                                    ),
+                                    end = Offset(
+                                        x = canvasWidth / 1.3f,
+                                        y = canvasHeight / 1.8f
+                                    ),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+                                drawLine(
+                                    start = Offset(x = canvasWidth / 1.31f, y = canvasHeight / 1.8f),
+                                    end = Offset(x = canvasWidth / 1.183f, y = canvasHeight / 1.01f),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+
+                            }
+                        }
                         Column (modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center) {
-                            Text(modifier = Modifier.padding(0.dp, 0.dp, 20.dp, 0.dp), text = "قفل خودکار: غیرفعال", color= Color.White, style = Typography().labelSmall)
-
-                            Row (modifier = Modifier
-                                .fillMaxSize(),
-                                verticalAlignment = Alignment.Top,
-                                horizontalArrangement = Arrangement.Start
-                            ) {
-                                Divider(
-                                    Modifier
-                                        .fillMaxWidth(0.8F)
-                                        .height(2.dp))
-//                    Divider(Modifier.fillMaxWidth(0.2F).height(25.dp).rotate(45F))
-                            }
+                            Text(modifier = Modifier.padding(0.dp, 0.dp, 10.dp, 18.dp),
+                                text = "قفل کودک: غیرفعال",
+                                color= Color.White,
+                                style = Typography().labelSmall)
                         }
                     }
+
                 }
 
                 Row(modifier = Modifier
-                    .weight(0.33F, fill = true)
+                    .weight(0.3F, fill = true)
                     .fillMaxHeight()) {
 
                     AnimatedVisibility(
@@ -190,10 +199,10 @@ class CarOption {
                         )
                     ) {
                         Row (modifier = Modifier.fillMaxSize(),
-                            verticalAlignment = Alignment.CenterVertically,
+                            verticalAlignment = Alignment.Bottom,
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            Text(text = "11.7 V", color= Color.White)
+                            Text(text = "11.7 V", color= Color.White, modifier = Modifier.padding(0.dp,0.dp,0.dp,6.dp))
                             Icon(
                                 Icons.Default.BatteryChargingFull,
                                 contentDescription = "car",
@@ -205,12 +214,12 @@ class CarOption {
                 }
 
                 Row(modifier = Modifier
-                    .weight(0.33F, fill = true)
-                    .padding(10.dp, 30.dp, 10.dp, 0.dp)
+                    .weight(0.35F, fill = true)
+                    .padding(10.dp, 15.dp, 10.dp, 0.dp)
                     .fillMaxHeight()) {
 
                     AnimatedVisibility(
-                        visible = opt4,
+                        visible = opt2,
                         enter = fadeIn(
                             animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
                         ),
@@ -218,72 +227,51 @@ class CarOption {
                             animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                         )
                     ) {
+                        Box (modifier = Modifier
+                            .fillMaxSize().padding(0.dp)) {
+                            Canvas(modifier = Modifier.fillMaxSize()) {
+                                val canvasWidth = size.width
+                                val canvasHeight = size.height
+                                drawLine(
+                                    start = Offset(
+                                        x = canvasWidth / 4.7f,
+                                        y = canvasHeight / 1.8f
+                                    ),
+                                    end = Offset(
+                                        x = canvasWidth / 1.15f,
+                                        y = canvasHeight / 1.8f
+                                    ),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+                                drawLine(
+                                    start = Offset(x = canvasWidth / 4.6f, y = canvasHeight / 1.8f ),
+                                    end = Offset(x = canvasWidth / 7f, y = canvasHeight / 0.99f ),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+
+                            }
+                        }
                         Column (modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center) {
-                            Text(modifier = Modifier.padding(20.dp, 0.dp, 0.dp, 0.dp), text = "قفل کودک: غیرفعال", color= Color.White, style = Typography().labelSmall)
-
-                            Row (modifier = Modifier
-                                .fillMaxSize(),
-                                verticalAlignment = Alignment.Top,
-                                horizontalArrangement = Arrangement.End
-                            ) {
-//                    Divider(Modifier.fillMaxWidth(0.2F).height(13.dp).padding(0.dp, 9.dp, 0.dp, 0.dp).rotate(-45F))
-                                Divider(
-                                    Modifier
-                                        .fillMaxWidth(0.8F)
-                                        .height(2.dp))
-                            }
+                            Text(modifier = Modifier.padding(3.dp, 0.dp, 0.dp, 18.dp),
+                                text = "قفل خودکار: غیرفعال",
+                                color= Color.White,
+                                style = Typography().labelSmall)
                         }
                     }
-
                 }
             }
 
             Row (modifier = Modifier
-                .weight(0.18F, fill = true)
+                .weight(0.15F, fill = true)
                 .fillMaxHeight()) {
 
                 Row(modifier = Modifier
                     .weight(0.33F, fill = true)
-                    .padding(10.dp, 30.dp, 10.dp, 0.dp)
-                    .fillMaxHeight()) {
-
-                    AnimatedVisibility(
-                        visible = opt1,
-                        enter = fadeIn(
-                            animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
-                        ),
-                        exit = fadeOut(
-                            animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
-                        )
-                    ) {
-                        Column (modifier = Modifier.fillMaxSize(),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center) {
-                            Text(modifier = Modifier.padding(0.dp, 0.dp, 20.dp, 0.dp), text = "سرعت: 0", color= Color.White, style = Typography().labelSmall)
-
-                            Row (modifier = Modifier
-                                .fillMaxSize(),
-                                verticalAlignment = Alignment.Top,
-                                horizontalArrangement = Arrangement.Start
-                            ) {
-                                Divider(
-                                    Modifier
-                                        .fillMaxWidth(0.8F)
-                                        .height(2.dp))
-//                    Divider(Modifier.fillMaxWidth(0.2F).height(20.dp).rotate(-45F))
-                            }
-                        }
-                    }
-                }
-                Spacer (modifier = Modifier
-                    .weight(0.5F, fill = true)
-                    .fillMaxHeight())
-
-                Row(modifier = Modifier
-                    .weight(0.33F, fill = true)
-                    .padding(10.dp, 30.dp, 10.dp, 0.dp)
+                    .padding(10.dp, 0.dp, 10.dp, 0.dp)
                     .fillMaxHeight()) {
 
                     AnimatedVisibility(
@@ -295,37 +283,54 @@ class CarOption {
                             animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                         )
                     ) {
+                        Box (modifier = Modifier
+                            .fillMaxSize().padding(0.dp,0.dp,0.dp,5.dp)) {
+                            Canvas(modifier = Modifier.fillMaxSize()) {
+                                val canvasWidth = size.width
+                                val canvasHeight = size.height
+                                drawLine(
+                                    start = Offset(
+                                        x = canvasWidth / 8f,
+                                        y = canvasHeight / 1.8f
+                                    ),
+                                    end = Offset(
+                                        x = canvasWidth / 1.5f,
+                                        y = canvasHeight / 1.8f
+                                    ),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+                                drawLine(
+                                    start = Offset(x = canvasWidth / 1.5f, y = canvasHeight / 1.85f),
+                                    end = Offset(x = canvasWidth / 1.3f, y = canvasHeight / 2f + 40),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+                            }
+                        }
+
                         Column (modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center) {
-                            Text(modifier = Modifier.padding(20.dp, 0.dp, 0.dp, 0.dp), text = "آژیرضربه:فعال", color= Color.White, style = Typography().labelSmall)
-
-                            Row (modifier = Modifier
-                                .fillMaxSize(),
-                                verticalAlignment = Alignment.Top,
-                                horizontalArrangement = Arrangement.End
-                            ) {
-//                    Divider(Modifier.fillMaxWidth(0.2F).height(13.dp).padding(0.dp, 9.dp, 0.dp, 0.dp).rotate(-45F))
-                                Divider(
-                                    Modifier
-                                        .fillMaxWidth(0.8F)
-                                        .height(2.dp))
-                            }
+                            Text(modifier = Modifier.padding(0.dp, 0.dp, 18.dp, 20.dp),
+                                text = "آژیرضربه:فعال",
+                                color= Color.White,
+                                style = Typography().labelSmall)
                         }
                     }
                 }
-            }
 
-            Row (modifier = Modifier
-                .weight(0.15F, fill = true)
-                .fillMaxWidth()) {
+                Spacer (modifier = Modifier
+                    .weight(0.5F, fill = true)
+                    .fillMaxHeight())
 
                 Row(modifier = Modifier
-                    .weight(0.2F, fill = true)
+                    .weight(0.33F, fill = true)
+                    .padding(10.dp, 0.dp, 10.dp, 0.dp)
                     .fillMaxHeight()) {
 
                     AnimatedVisibility(
-                        visible = opt6,
+                        visible = opt1,
                         enter = fadeIn(
                             animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
                         ),
@@ -333,30 +338,49 @@ class CarOption {
                             animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
                         )
                     ) {
-                        Row (modifier = Modifier.fillMaxSize(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            Text(text = "GSM \n SIGNAL", color= Color.White, style = Typography().labelSmall)
-                            Spacer (modifier = Modifier
-                                .width(10.dp)
-                                .fillMaxHeight())
-                            Icon(
-                                Icons.Default.SignalCellularAlt,
-                                contentDescription = "car",
-                                tint = Color.White,
-                                modifier = Modifier.size(15.dp)
-                            )
+                        Box (modifier = Modifier
+                            .fillMaxSize().padding(0.dp,0.dp,0.dp,5.dp)) {
+                            Canvas(modifier = Modifier.fillMaxSize()) {
+                                val canvasWidth = size.width
+                                val canvasHeight = size.height
+                                drawLine(
+                                    start = Offset(
+                                        x = canvasWidth / 3f,
+                                        y = canvasHeight / 2f
+                                    ),
+                                    end = Offset(
+                                        x = canvasWidth / 1.1f,
+                                        y = canvasHeight / 2f
+                                    ),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+                                drawLine(
+                                    start = Offset(x = canvasWidth / 3f +1, y = canvasHeight / 2f),
+                                    end = Offset(x = canvasWidth / 4f, y = canvasHeight / 2f + 40),
+                                    color = Color.White,
+                                    strokeWidth = 6f
+                                )
+                            }
+                        }
+                        Column (modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center) {
+                            Text(modifier = Modifier.padding(20.dp, 0.dp, 0.dp, 25.dp),
+                                text = "سرعت: 0",
+                                color= Color.White,
+                                style = Typography().labelSmall)
                         }
                     }
                 }
+            }
 
-                Spacer (modifier = Modifier
-                    .weight(0.6F, fill = true)
-                    .fillMaxHeight())
+            Row (modifier = Modifier
+                .weight(0.18F, fill = true)
+                .fillMaxWidth()) {
 
                 Row(modifier = Modifier
-                    .weight(0.2F, fill = true)
+                    .weight(0.28F, fill = true)
                     .fillMaxHeight()) {
 
                     AnimatedVisibility(
@@ -372,29 +396,27 @@ class CarOption {
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
+                            Text(text = "GPS\nSIGNAL", color= Color.White, style = Typography().labelSmall)
+                            Spacer (modifier = Modifier
+                                .width(10.dp)
+                                .fillMaxHeight())
                             Icon(
                                 Icons.Default.SignalCellularAlt,
                                 contentDescription = "car",
                                 tint = Color.White,
                                 modifier = Modifier.size(15.dp)
                             )
-                            Spacer (modifier = Modifier
-                                .width(10.dp)
-                                .fillMaxHeight())
-                            Text(text = "GPS\nSIGNAL", color= Color.White, style = Typography().labelSmall)
                         }
                     }
                 }
-            }
 
-            Row (modifier = Modifier
-                .weight(0.15F, fill = true)
-                .fillMaxWidth()) {
+                Spacer (modifier = Modifier
+                    .weight(0.44F, fill = true)
+                    .fillMaxHeight())
 
                 Row(modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(0.15F, fill = true)
-                ) {
+                    .weight(0.28F, fill = true)
+                    .fillMaxHeight()) {
 
                     AnimatedVisibility(
                         visible = opt6,
@@ -407,10 +429,48 @@ class CarOption {
                     ) {
                         Row (modifier = Modifier.fillMaxSize(),
                             verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                Icons.Default.SignalCellularAlt,
+                                contentDescription = "car",
+                                tint = Color.White,
+                                modifier = Modifier.size(15.dp)
+                            )
+                            Spacer (modifier = Modifier
+                                .width(10.dp)
+                                .fillMaxHeight())
+                            Text(text = "GSM \n SIGNAL", color= Color.White, style = Typography().labelSmall)
+                        }
+                    }
+                }
+
+            }
+
+            Row (modifier = Modifier
+                .weight(0.19F, fill = true)
+                .fillMaxWidth()) {
+
+                Row(modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(0.15F, fill = true)
+                ) {
+
+                    AnimatedVisibility(
+                        visible = opt8,
+                        enter = fadeIn(
+                            animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
+                        ),
+                        exit = fadeOut(
+                            animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+                        )
+                    ) {
+                        Row (modifier = Modifier.fillMaxSize(),
+                            verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.End
                         ) {
                             Icon(
-                                Icons.Default.Lock,
+                                Icons.Default.DirectionsCar,
                                 contentDescription = "car",
                                 tint = Color.White,
                                 modifier = Modifier.size(30.dp)
@@ -429,7 +489,7 @@ class CarOption {
                 ) {
 
                     AnimatedVisibility(
-                        visible = opt8,
+                        visible = opt6,
                         enter = fadeIn(
                             animationSpec = tween(durationMillis = 500, easing = LinearOutSlowInEasing)
                         ),
@@ -442,7 +502,7 @@ class CarOption {
                             horizontalArrangement = Arrangement.Start
                         ) {
                             Icon(
-                                Icons.Default.DirectionsCar,
+                                Icons.Default.Lock,
                                 contentDescription = "car",
                                 tint = Color.White,
                                 modifier = Modifier.size(30.dp)
@@ -454,7 +514,7 @@ class CarOption {
 
             Row(modifier = Modifier
                 .fillMaxHeight()
-                .weight(0.2F, fill = true)
+                .weight(0.3F, fill = true)
             ) {
 
                 AnimatedVisibility(
@@ -467,7 +527,7 @@ class CarOption {
                     )
                 ) {
                     Box (modifier = Modifier
-                        .fillMaxSize()){
+                        .fillMaxSize().padding(0.dp,0.dp,0.dp,15.dp)){
                         Canvas(modifier = Modifier.fillMaxSize()) {
                             val canvasWidth = size.width
                             val canvasHeight = size.height
@@ -491,7 +551,7 @@ class CarOption {
                             )
                             drawLine(
                                 end = Offset(x = canvasWidth/2, y = canvasHeight/2 +50),
-                                start = Offset(x = canvasWidth/2 , y = canvasHeight/2 + 100),
+                                start = Offset(x = canvasWidth/2 , y = canvasHeight/2 + 95),
                                 color = Color.White,
                                 strokeWidth = 6f
                             )
@@ -501,9 +561,24 @@ class CarOption {
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ){
-                            Text(text = "تست نرم افزار", color = Color.White, style = Typography().titleSmall)
+                            Text(text = "خودرو خاموش است",
+                                color = white,
+                                style = Typography().titleSmall,
+                                modifier = Modifier.padding(0.dp,0.dp,0.dp,13.dp))
                         }
                     }
+                    Row (modifier = Modifier
+                        .fillMaxSize(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.Bottom
+                    ){
+                        Text(text = "تاریخ وضعیت : 1402/07/04 08:24:34",
+                            color = white,
+                            style = Typography().titleSmall,
+                            modifier = Modifier.padding(0.dp,0.dp,0.dp,10.dp)
+                        )
+                    }
+
                 }
             }
         }
@@ -543,7 +618,7 @@ class CarOption {
     }
 
     private fun playMusic(context: Context){
-    val mMediaPlayer = MediaPlayer.create(context, R.raw.check)
-    mMediaPlayer.start()
+        val mMediaPlayer = MediaPlayer.create(context, R.raw.check)
+        mMediaPlayer.start()
     }
 }

@@ -47,7 +47,7 @@ class Car {
                 Row (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(0.dp, 0.dp, 0.dp, 170.dp),
+                        .padding(0.dp, 0.dp, 0.dp, 250.dp),
 
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,

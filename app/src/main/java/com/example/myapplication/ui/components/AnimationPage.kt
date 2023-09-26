@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.SettingsSuggest
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RadialGradientShader
 import androidx.compose.ui.graphics.Shader
 import androidx.compose.ui.graphics.ShaderBrush
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
@@ -55,127 +58,149 @@ fun AnimationPage() {
     var shown by remember { mutableStateOf(false) }
     val animatedFloat = remember { Animatable(0f) }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(largeRadialGradient)
-    ){
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(largeRadialGradient)
+        ) {
 
-        Menu().Draw(show = shown)
-        CarOption().Options()
-        Car().Draw(show = shown)
+            Menu().Draw(show = shown)
+            CarOption().Options()
+            Car().Draw(show = shown)
 
-        Row (modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        )
-        {
-
-            Column(modifier = Modifier
-                .weight(weight = 0.2f, fill = true)
-                .fillMaxHeight(0.09F)
-                .background(Color.Blue),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon( Icons.Default.DirectionsCarFilled,
-                    contentDescription = "car",
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp))
-            }
-
-            Divider(modifier = Modifier
-                .width(1.dp)
-                .fillMaxHeight(0.09F)
-                .padding(0.dp, 8.dp, 0.dp, 8.dp),
-                color = Color.White
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.SpaceEvenly
             )
+            {
 
-            Column(modifier = Modifier
-                .weight(weight = 0.2f, fill = true)
-                .fillMaxHeight(0.09F)
-                .background(Color.Blue),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon( Icons.Default.Hearing,
-                    contentDescription = "hear",
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp))
+                Column(
+                    modifier = Modifier
+                        .weight(weight = 0.2f, fill = true)
+                        .fillMaxHeight(0.078F)
+                        .background(Color.Blue),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        Icons.Default.QuestionMark,
+                        contentDescription = "car",
+                        tint = Color.White,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+
+                Divider(
+                    modifier = Modifier
+                        .width(1.dp)
+                        .fillMaxHeight(0.078F)
+                        .padding(0.dp, 8.dp, 0.dp, 8.dp),
+                    color = Color.White
+                )
+
+                Column(
+                    modifier = Modifier
+                        .weight(weight = 0.2f, fill = true)
+                        .fillMaxHeight(0.078F)
+                        .background(Color.Blue),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        Icons.Default.SettingsSuggest,
+                        contentDescription = "hear",
+                        tint = Color.White,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+
+                Divider(
+                    modifier = Modifier
+                        .width(3.dp)
+                        .fillMaxHeight(0.078F),
+                    color = Color.Black
+                )
+
+                Column(
+                    modifier = Modifier
+                        .weight(weight = 0.2f, fill = true)
+                        .fillMaxHeight(0.17F)
+                ) {
+                    Dashboard().Main(show = shown)
+                }
+
+                Divider(
+                    modifier = Modifier
+                        .width(3.dp)
+                        .fillMaxHeight(0.078F),
+                    color = Color.Black
+                )
+
+                Column(
+                    modifier = Modifier
+                        .weight(weight = 0.2f, fill = true)
+                        .fillMaxHeight(0.078F)
+                        .background(Color.Blue),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        Icons.Default.Hearing,
+                        contentDescription = "setting",
+                        tint = Color.White,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+
+                Divider(
+                    modifier = Modifier
+                        .width(1.dp)
+                        .fillMaxHeight(0.078F)
+                        .padding(0.dp, 8.dp, 0.dp, 8.dp),
+                    color = Color.White
+                )
+
+                Column(
+                    modifier = Modifier
+                        .weight(weight = 0.2f, fill = true)
+                        .fillMaxHeight(0.078F)
+                        .background(Color.Blue),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        Icons.Default.DirectionsCarFilled,
+                        contentDescription = "question",
+                        tint = Color.White,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+
             }
 
-            Divider(modifier = Modifier
-                .width(0.9.dp)
-                .fillMaxHeight(0.09F),
-                color = Color.Black
-            )
-
-            Column(modifier = Modifier
-                .weight(weight = 0.2f, fill = true)
-                .fillMaxHeight(0.2F)
-            ) {
-                Dashboard().Main(show = shown)
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.End)
+            {
+                Dashboard().Right(show = shown)
             }
 
-            Divider(modifier = Modifier
-                .width(0.9.dp)
-                .fillMaxHeight(0.09F),
-                color = Color.Black
-            )
-
-            Column(modifier = Modifier
-                .weight(weight = 0.2f, fill = true)
-                .fillMaxHeight(0.09F)
-                .background(Color.Blue),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon( Icons.Default.SettingsSuggest,
-                    contentDescription = "setting",
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp))
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Start)
+            {
+                Dashboard().Left(show = shown)
             }
-
-            Divider(modifier = Modifier
-                .width(1.dp)
-                .fillMaxHeight(0.09F)
-                .padding(0.dp, 8.dp, 0.dp, 8.dp),
-                color = Color.White
-            )
-
-            Column(modifier = Modifier
-                .weight(weight = 0.2f, fill = true)
-                .fillMaxHeight(0.09F)
-                .background(Color.Blue),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon( Icons.Default.QuestionMark,
-                    contentDescription = "question",
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp))
-            }
-            
         }
 
-        Row (modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.End)
-        {
-            Dashboard().Right(show = shown)
+        LaunchedEffect(animatedFloat) {
+            delay(500)
+            shown = !shown
         }
-
-        Row (modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.Start)
-        {
-            Dashboard().Left(show = shown)
-        }
-    }
-
-    LaunchedEffect(animatedFloat) {
-        delay(500)
-        shown= !shown
     }
 }
 

@@ -33,16 +33,19 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 class Menu {
+    @Preview(showSystemUi = true)
     @Composable
-    fun Draw(show: Boolean) {
+    fun Draw(show: Boolean = true) {
+
         AnimatedVisibility(
             visible = show,
             enter = slideInVertically(
                 // Enters by sliding down from offset -fullHeight to 0.
-                initialOffsetY = { -300},
+                initialOffsetY = { -300 },
                 animationSpec = tween(durationMillis = 1500, easing = LinearOutSlowInEasing)
             ),
             exit = slideOutVertically(
@@ -53,7 +56,7 @@ class Menu {
         ) {
             Surface(
                 modifier = Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth().padding(0.dp, 30.dp, 0.dp, 0.dp),
                 color = Color.Transparent
             ) {
                 Box {
@@ -61,8 +64,11 @@ class Menu {
                         val arcRadius = 110f
                         val canvasHeight = size.height
 
-                        val canvasQuadrantSize = canvasHeight / 2 - (arcRadius / 2)+345
-                        drawRect(color = Color.Blue, size = Size(canvasQuadrantSize,canvasQuadrantSize))
+                        val canvasQuadrantSize = canvasHeight / 2 - (arcRadius / 2) + 345
+                        drawRect(
+                            color = Color.Blue,
+                            size = Size(canvasQuadrantSize, canvasQuadrantSize)
+                        )
 
                         drawArc(
                             color = Color(red = 17, green = 105, blue = 175, alpha = 255),
@@ -72,18 +78,20 @@ class Menu {
                             size = Size(1300f, 250f),
                             topLeft = Offset(
                                 -100f,
-                                canvasHeight / 2 - (arcRadius / 2)+ 150F
+                                canvasHeight / 2 - (arcRadius / 2) + 150F
                             ),
                             style = Stroke(width = 150f, cap = StrokeCap.Round)
                         )
                     }
                 }
 
-                Row (modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp, 230.dp, 0.dp, 0.dp),
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(0.dp, 235.dp, 0.dp, 0.dp)
+                    ,
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.Center
                 )
                 {
 
@@ -96,7 +104,7 @@ class Menu {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(
-                            Icons.Default.CarRental,
+                            Icons.Default.VolumeUp,
                             contentDescription = "car",
                             tint = Color.White,
                             modifier = Modifier.size(30.dp)
@@ -107,30 +115,7 @@ class Menu {
                         modifier = Modifier
                             .width(1.dp)
                             .fillMaxHeight(0.15F)
-                            .padding(0.dp, 40.dp, 0.dp, 15.dp),
-                        color = Color.White
-                    )
-                    Column(
-                        modifier = Modifier
-                            .weight(weight = 0.21f, fill = true)
-                            .fillMaxHeight(0.12F)
-                            .padding(0.dp, 25.dp, 0.dp, 0.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(
-                            Icons.Filled.LockOpen,
-                            contentDescription = "car",
-                            tint = Color.White,
-                            modifier = Modifier.size(30.dp)
-                        )
-                    }
-
-                    Divider(
-                        modifier = Modifier
-                            .width(1.dp)
-                            .fillMaxHeight(0.15F)
-                            .padding(0.dp, 47.dp, 0.dp, 7.dp),
+                            .padding(0.dp, 36.dp, 0.dp, 15.dp),
                         color = Color.White
                     )
                     Column(
@@ -153,7 +138,30 @@ class Menu {
                         modifier = Modifier
                             .width(1.dp)
                             .fillMaxHeight(0.15F)
-                            .padding(0.dp, 40.dp, 0.dp, 15.dp),
+                            .padding(0.dp, 40.dp, 0.dp, 9.dp),
+                        color = Color.White
+                    )
+                    Column(
+                        modifier = Modifier
+                            .weight(weight = 0.21f, fill = true)
+                            .fillMaxHeight(0.12F)
+                            .padding(0.dp, 25.dp, 0.dp, 0.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            Icons.Filled.LockOpen,
+                            contentDescription = "car",
+                            tint = Color.White,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+
+                    Divider(
+                        modifier = Modifier
+                            .width(1.dp)
+                            .fillMaxHeight(0.15F)
+                            .padding(0.dp, 36.dp, 0.dp, 15.dp),
                         color = Color.White
                     )
 
@@ -166,16 +174,14 @@ class Menu {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(
-                            Icons.Default.VolumeUp,
+                            Icons.Default.CarRental,
                             contentDescription = "car",
                             tint = Color.White,
                             modifier = Modifier.size(30.dp)
                         )
                     }
                 }
-
             }
         }
     }
-
 }

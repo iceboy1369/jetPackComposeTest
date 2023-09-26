@@ -34,12 +34,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.R
 
 class Dashboard {
+    @Preview(showSystemUi = true)
     @Composable
-    fun Right(show: Boolean) {
+    fun Left(show: Boolean = true) {
         AnimatedVisibility(
             visible = show,
             enter = slideInHorizontally(
@@ -77,8 +79,9 @@ class Dashboard {
         }
     }
 
+    @Preview(showSystemUi = true)
     @Composable
-    fun Left(show: Boolean) {
+    fun Right(show: Boolean = true) {
         AnimatedVisibility(
             visible = show,
             enter = slideInHorizontally(
@@ -96,7 +99,7 @@ class Dashboard {
                 modifier = Modifier
                     .fillMaxWidth(0.33F)
                     .fillMaxHeight(0.27F)
-                    .padding(0.dp, 0.dp, 15.dp, 0.dp) ,
+                    .padding(15.dp, 0.dp, 0.dp, 0.dp) ,
                 color = Color.Transparent
             ) {
                 Box (
@@ -106,7 +109,7 @@ class Dashboard {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(0.dp, 10.dp, 0.dp, 0.dp),
-                        horizontalAlignment = Alignment.End,
+                        horizontalAlignment = Alignment.Start,
                         verticalArrangement = Arrangement.Center,
                     ){
                         Box(
@@ -128,7 +131,7 @@ class Dashboard {
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)
-                                .padding(0.dp, 0.dp, 40.dp, 0.dp)
+                                .padding(40.dp, 0.dp, 0.dp, 0.dp)
                                 .background(Color.Blue)
                         )
                     }
@@ -136,7 +139,7 @@ class Dashboard {
                     Row (
                         verticalAlignment = Alignment.Top,
                         horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.padding(43.dp,12.dp,2.dp,0.dp)
+                        modifier = Modifier.padding(2.dp,12.dp,43.dp,0.dp)
                     ){
                         Image(
                             painter = painterResource(R.drawable.engin),
@@ -151,8 +154,9 @@ class Dashboard {
         }
     }
 
+    @Preview(showSystemUi = true)
     @Composable
-    fun Main(show: Boolean) {
+    fun Main(show: Boolean = true) {
         AnimatedVisibility(
             visible = show,
             enter = slideInVertically(
